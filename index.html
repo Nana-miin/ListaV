@@ -129,11 +129,22 @@
         });
 
         // LEER LOS DATOS (EL HISTORIAL)
+// LEER LOS DATOS (EL HISTORIAL)
         function cargarConsumos() {
             document.getElementById('listaConsumos').innerHTML = "<p>Cargando consumos...</p>";
             
-            fetch(APPS_SCRIPT_URL)
-                .then(response => response.json())
+            // AGREGAMOS METHOD Y REDIRECT AQUÍ
+            fetch(APPS_SCRIPT_URL, {
+                method: 'GET',
+                redirect: 'follow' // MUY IMPORTANTE para Apps Script
+            })
+                .then(response => {
+                    // Verificamos si la respuesta es exitosa
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     let html = "<table><tr><th>Nombre</th><th>Bebida</th><th>Cant.</th></tr>";
                     let totalBebidas = 0;
@@ -163,6 +174,7 @@
                     }
                 })
                 .catch(err => {
+                    console.error("Error capturado:", err); // Para ver el error exacto en la consola (F12)
                     document.getElementById('listaConsumos').innerHTML = "<p>Error al cargar la lista. Asegurate de que la URL sea la correcta.</p>";
                 });
         }
