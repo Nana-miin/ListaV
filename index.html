@@ -21,10 +21,21 @@
 <body>
 
     <!-- PANTALLA DE INGRESO -->
+  <!-- PANTALLA DE INGRESO -->
     <div id="loginSection" class="card">
         <h2>🎉 Bienvenido al Cumple</h2>
-        <p>Ingresá tu nombre para ver y anotar tus consumos.</p>
-        <input type="text" id="nombreUsuario" placeholder="Ej: Jimena, Victoria, Juan..." required>
+        <p>Seleccioná tu nombre para ver y anotar tus consumos.</p>
+        
+        <select id="nombreUsuario" required>
+            <option value="">Seleccionar invitado...</option>
+            <option value="Victoria">Victoria (Admin)</option>
+            <option value="Jimena">Jimena</option>
+            <option value="Matias">Matias</option>
+            <option value="Lucas">Franco</option>
+            <option value="Sofia">Agus</option>
+            <!-- Agregá todos los <option> que necesites copiando la línea de arriba -->
+        </select>
+
         <button onclick="iniciarSesion()">Entrar</button>
     </div>
 
