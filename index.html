@@ -5,68 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Bebidas</title>
     <style>
-        body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 1rem; }
-        select, input, button { width: 100%; margin-bottom: 1rem; padding: 0.5rem; font-size: 1rem; }
-        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        body { font-family: sans-serif; max-width: 500px; margin: 2rem auto; padding: 1rem; background-color: #f9f9f9; }
+        .card { background: white; border: 1px solid #ddd; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; margin-bottom: 1rem; padding: 0.7rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #45a049; }
+        .btn-rojo { background-color: #f44336; margin-top: 10px; }
+        .btn-azul { background-color: #2196F3; }
+        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
-    <h2>🍹 Consumo Cumpleaños</h2>
-    <form id="drinkForm">
-        <label>Invitado:</label>
-        <select id="nombre" required>
-            <option value="">Seleccionar...</option>
-            <option value="Jimena">Jimena</option>
-            <option value="Amigo 1">Amigo 1</option>
-            <option value="Amigo 2">Amigo 2</option>
-        </select>
 
-        <label>Bebida:</label>
-        <select id="bebida" required>
-            <option value="">Seleccionar...</option>
-            <option value="Cerveza">Cerveza</option>
-            <option value="Fernet">Fernet</option>
-            <option value="Gin Tonic">Gin Tonic</option>
-            <option value="Agua">Agua</option>
-        </select>
+    <!-- PANTALLA DE INGRESO -->
+    <div id="loginSection" class="card">
+        <h2>🎉 Bienvenido al Cumple</h2>
+        <p>Ingresá tu nombre para ver y anotar tus consumos.</p>
+        <input type="text" id="nombreUsuario" placeholder="Ej: Jimena, Victoria, Juan..." required>
+        <button onclick="iniciarSesion()">Entrar</button>
+    </div>
 
-        <label>Cantidad (Vasos/Latas):</label>
-        <input type="number" id="cantidad" value="1" min="1" required>
+    <!-- PANTALLA PRINCIPAL (Oculta al inicio) -->
+    <div id="mainSection" class="hidden">
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem;">
+            <h2 id="saludo" style="margin: 0;"></h2>
+            <button onclick="cerrarSesion()" class="btn-rojo" style="width: auto; margin: 0; padding: 0.5rem 1rem;">Salir</button>
+        </div>
 
-        <button type="submit">Anotar</button>
-    </form>
+        <!-- FORMULARIO PARA ANOTAR -->
+        <div class="card">
+            <h3>🍹 Anotar Bebida</h3>
+            <form id="drinkForm">
+                <label>Bebida:</label>
+                <select id="bebida" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Cerveza">Cerveza</option>
+                    <option value="Fernet">Fernet</option>
+                    <option value="Gin Tonic">Gin Tonic</option>
+                    <option value="Vino">Vino</option>
+                    <option value="Agua">Agua/Gaseosa</option>
+                </select>
 
-    <p id="mensaje"></p>
+                <label>Cantidad (Vasos/Latas):</label>
+                <input type="number" id="cantidad" value="1" min="1" required>
+
+                <button type="submit">Sumar Bebida</button>
+            </form>
+            <p id="mensaje" style="color: green; font-weight: bold;"></p>
+        </div>
+
+        <!-- LISTA DE CONSUMOS -->
+        <div class="card">
+            <h3 id="tituloLista">Tus Consumos</h3>
+            <button onclick="cargarConsumos()" class="btn-azul">Actualizar Lista</button>
+            <div id="listaConsumos">Cargando...</div>
+        </div>
+    </div>
 
     <script>
-        // REEMPLAZÁ CON TU URL DE APPS SCRIPT
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbl6Eef1oHmCsZxbwQyEwa9GAdu3cCbQzcCJK9h1m5TUIC-0NDvFzAc4xe2nsER4ar/exec'; 
+        // PEGAR AQUÍ LA NUEVA URL DE APPS SCRIPT
+        const APPS_SCRIPT_URL = 'TU_URL_AQUI'; 
+        let usuarioActual = "";
 
+        function iniciarSesion() {
+            const nombreInput = document.getElementById('nombreUsuario').value.trim();
+            if (!nombreInput) {
+                alert("Por favor, ingresá tu nombre.");
+                return;
+            }
+            
+            usuarioActual = nombreInput; 
+            
+            // Cambiar pantallas
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainSection').classList.remove('hidden');
+            document.getElementById('saludo').innerText = "Hola, " + usuarioActual;
+            
+            // Si es Victoria, activamos modo Admin
+            if (usuarioActual.toLowerCase() === "victoria") {
+                document.getElementById('tituloLista').innerText = "👑 Modo Admin: Todos los consumos";
+            } else {
+                document.getElementById('tituloLista').innerText = "Tus Consumos";
+            }
+
+            cargarConsumos();
+        }
+
+        function cerrarSesion() {
+            usuarioActual = "";
+            document.getElementById('nombreUsuario').value = "";
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        // GUARDAR UN NUEVO DATO
         document.getElementById('drinkForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            document.getElementById('mensaje').innerText = "Guardando...";
+            document.getElementById('mensaje').innerText = "Anotando...";
 
             const data = {
-                nombre: document.getElementById('nombre').value,
+                nombre: usuarioActual, // Ahora usa el nombre del usuario logueado automáticamente
                 bebida: document.getElementById('bebida').value,
                 cantidad: document.getElementById('cantidad').value
             };
 
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Evita problemas de CORS al mandar desde local/GitHub
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             }).then(() => {
-                document.getElementById('mensaje').innerText = "¡Anotado correctamente!";
-                document.getElementById('drinkForm').reset();
+                document.getElementById('mensaje').innerText = "¡Anotado!";
+                document.getElementById('bebida').value = "";
+                document.getElementById('cantidad').value = "1";
+                cargarConsumos(); // Refrescamos la lista automáticamente
                 setTimeout(() => document.getElementById('mensaje').innerText = "", 3000);
             }).catch(err => {
-                document.getElementById('mensaje').innerText = "Error al guardar.";
+                document.getElementById('mensaje').innerText = "Error al anotar.";
             });
         });
+
+        // LEER LOS DATOS (EL HISTORIAL)
+        function cargarConsumos() {
+            document.getElementById('listaConsumos').innerHTML = "<p>Cargando consumos...</p>";
+            
+            fetch(APPS_SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    let html = "<table><tr><th>Nombre</th><th>Bebida</th><th>Cant.</th></tr>";
+                    let totalBebidas = 0;
+                    let hayDatos = false;
+
+                    // Recorremos las filas que vienen de tu Google Sheet
+                    data.forEach(fila => {
+                        // Lógica clave: Si es victoria, o si el nombre coincide con el usuario logueado
+                        if (usuarioActual.toLowerCase() === "victoria" || fila.nombre.toLowerCase() === usuarioActual.toLowerCase()) {
+                            html += `<tr>
+                                        <td>${fila.nombre}</td>
+                                        <td>${fila.bebida}</td>
+                                        <td>${fila.cantidad}</td>
+                                     </tr>`;
+                            totalBebidas += Number(fila.cantidad);
+                            hayDatos = true;
+                        }
+                    });
+
+                    html += `<tr style="background-color: #e8f5e9;"><td colspan="2"><b>Total acumulado</b></td><td><b>${totalBebidas}</b></td></tr>`;
+                    html += "</table>";
+
+                    if (!hayDatos) {
+                        document.getElementById('listaConsumos').innerHTML = "<p>Todavía no anotaste nada.</p>";
+                    } else {
+                        document.getElementById('listaConsumos').innerHTML = html;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('listaConsumos').innerHTML = "<p>Error al cargar la lista. Asegurate de que la URL sea la correcta.</p>";
+                });
+        }
     </script>
 </body>
 </html>
