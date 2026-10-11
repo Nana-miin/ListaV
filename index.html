@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Bebidas</title>
+    <style>
+        body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 1rem; }
+        select, input, button { width: 100%; margin-bottom: 1rem; padding: 0.5rem; font-size: 1rem; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>🍹 Consumo Cumpleaños</h2>
+    <form id="drinkForm">
+        <label>Invitado:</label>
+        <select id="nombre" required>
+            <option value="">Seleccionar...</option>
+            <option value="Jimena">Jimena</option>
+            <option value="Amigo 1">Amigo 1</option>
+            <option value="Amigo 2">Amigo 2</option>
+        </select>
+
+        <label>Bebida:</label>
+        <select id="bebida" required>
+            <option value="">Seleccionar...</option>
+            <option value="Cerveza">Cerveza</option>
+            <option value="Fernet">Fernet</option>
+            <option value="Gin Tonic">Gin Tonic</option>
+            <option value="Agua">Agua</option>
+        </select>
+
+        <label>Cantidad (Vasos/Latas):</label>
+        <input type="number" id="cantidad" value="1" min="1" required>
+
+        <button type="submit">Anotar</button>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <script>
+        // REEMPLAZÁ CON TU URL DE APPS SCRIPT
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbl6Eef1oHmCsZxbwQyEwa9GAdu3cCbQzcCJK9h1m5TUIC-0NDvFzAc4xe2nsER4ar/exec'; 
+
+        document.getElementById('drinkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('mensaje').innerText = "Guardando...";
+
+            const data = {
+                nombre: document.getElementById('nombre').value,
+                bebida: document.getElementById('bebida').value,
+                cantidad: document.getElementById('cantidad').value
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Evita problemas de CORS al mandar desde local/GitHub
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then(() => {
+                document.getElementById('mensaje').innerText = "¡Anotado correctamente!";
+                document.getElementById('drinkForm').reset();
+                setTimeout(() => document.getElementById('mensaje').innerText = "", 3000);
+            }).catch(err => {
+                document.getElementById('mensaje').innerText = "Error al guardar.";
+            });
+        });
+    </script>
+</body>
+</html>
