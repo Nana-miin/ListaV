@@ -14,7 +14,7 @@
             --texto-oscuro: #333333;u
         }
 
-        body { 
+body { 
             font-family: 'Poppins', sans-serif; 
             max-width: 100vw; 
             min-height: 100vh;
@@ -23,12 +23,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Fondo con la imagen de la invitación */
-            background: url('fondo.jpeg') no-repeat center center fixed;
-            background-size: cover;
             color: var(--texto-oscuro);
-        }
 
+            /* --- NUEVO FONDO CENTRADO CON BORDES BLANCOS --- */
+            background-color: #ffffff;
+            background-image: url('fondo.jpeg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: contain; 
+        }
         /* Contenedor principal para centrar */
         .container {
             width: 100%;
