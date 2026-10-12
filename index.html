@@ -3,103 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Bebidas</title>
+    <title>¡Mis 27! - Control de Bebidas</title>
+    <!-- Importamos una fuente moderna y redondeada de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: sans-serif; max-width: 500px; margin: 2rem auto; padding: 1rem; background-color: #f9f9f9; }
-        .card { background: white; border: 1px solid #ddd; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input, select, button { width: 100%; margin-bottom: 1rem; padding: 0.7rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background-color: #45a049; }
-        .btn-rojo { background-color: #f44336; margin-top: 10px; }
-        .btn-azul { background-color: #2196F3; }
+        :root {
+            --rosa-fuerte: #ff4d85;
+            --rosa-claro: #ff85a8;
+            --texto-oscuro: #333333;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            max-width: 100vw; 
+            min-height: 100vh;
+            margin: 0; 
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Fondo con la imagen de la invitación */
+            background: url('fondo.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--texto-oscuro);
+        }
+
+        /* Contenedor principal para centrar */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            margin-top: 2rem;
+        }
+
+        /* Estilo de tarjetas tipo Vidrio (Glassmorphism) */
+        .card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 2rem; 
+            margin-bottom: 1.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px rgba(255, 77, 133, 0.15); 
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: var(--rosa-fuerte);
+            margin-top: 0;
+            font-weight: 800;
+        }
+
+        p { font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+        input, select { 
+            width: 100%; 
+            margin-bottom: 1.2rem; 
+            padding: 0.8rem; 
+            font-size: 1rem; 
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid #fee1e8; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            background-color: rgba(255,255,255,0.9);
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--rosa-fuerte);
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #555;
+        }
+
+        button { 
+            width: 100%;
+            background: linear-gradient(135deg, var(--rosa-claro) 0%, var(--rosa-fuerte) 100%);
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            padding: 1rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255, 77, 133, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 133, 0.4);
+        }
+
+        .btn-rojo { 
+            background: linear-gradient(135deg, #757575 0%, #424242 100%); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            width: auto;
+        }
+        
+        .btn-rojo:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
         .hidden { display: none; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+
+        /* Estilo de la tabla de consumos */
+        table { 
+            width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0;
+            margin-top: 1rem; 
+            font-size: 0.9rem; 
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td { 
+            padding: 10px; 
+            text-align: left; 
+            border-bottom: 1px solid #fee1e8;
+        }
+        th { 
+            background-color: var(--rosa-fuerte); 
+            color: white;
+            font-weight: 600;
+        }
+        tr:last-child td { border-bottom: none; }
+        .total-row { background-color: #fff0f4; font-weight: bold; color: var(--rosa-fuerte); }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA DE INGRESO -->
-  <!-- PANTALLA DE INGRESO -->
-    <div id="loginSection" class="card">
-        <h2>🎉 Bienvenido al Cumple</h2>
-        <p>Seleccioná tu nombre para ver y anotar tus consumos.</p>
-        
-        <select id="nombreUsuario" required>
-            <option value="">Seleccionar invitado...</option>
-            <option value="Victoria">Victoria (Admin)</option>
-            <option value="Jimena">Jimena</option>
-            <option value="Matias">Matias</option>
-            <option value="Lucas">Lucas</option>
-            <option value="Sofia">Sofia</option>
-            <!-- Agregá más invitados copiando la línea de arriba -->
-        </select>
+    <div class="container">
+        <!-- PANTALLA DE INGRESO -->
+        <div id="loginSection" class="card">
+            <h2>✨ ¡Mis 27! ✨</h2>
+            <p>Seleccioná tu nombre para arrancar la noche.</p>
+            
+            <select id="nombreUsuario" required>
+                <option value="">¿Quién sos?...</option>
+                <option value="Victoria">Victoria (Admin)</option>
+                <option value="Jimena">Jimena</option>
+                <option value="Matias">Matias</option>
+                <option value="Lucas">Lucas</option>
+                <option value="Sofia">Sofia</option>
+                <!-- Agregá más invitados acá -->
+            </select>
 
-        <button onclick="iniciarSesion()">Entrar</button>
-    </div>
-
-    <!-- PANTALLA PRINCIPAL (Oculta al inicio) -->
-    <div id="mainSection" class="hidden">
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem;">
-            <h2 id="saludo" style="margin: 0;"></h2>
-            <button onclick="cerrarSesion()" class="btn-rojo" style="width: auto; margin: 0; padding: 0.5rem 1rem;">Salir</button>
+            <button onclick="iniciarSesion()">Entrar a la fiesta</button>
         </div>
 
-        <!-- FORMULARIO PARA ANOTAR -->
-        <div class="card">
-            <h3>🍹 Anotar Bebida</h3>
-            <form id="drinkForm">
-                <label>Bebida:</label>
-                <select id="bebida" required>
-                    <option value="">Seleccionar...</option>
-                    <option value="Cerveza">Cerveza</option>
-                    <option value="Fernet">Fernet</option>
-                    <option value="Gin Tonic">Gin Tonic</option>
-                    <option value="Vino">Vino</option>
-                    <option value="Agua">Agua/Gaseosa</option>
-                </select>
+        <!-- PANTALLA PRINCIPAL (Oculta al inicio) -->
+        <div id="mainSection" class="hidden">
+            
+            <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem;">
+                <h3 id="saludo" style="margin: 0; font-size: 1.2rem;"></h3>
+                <button onclick="cerrarSesion()" class="btn-rojo">Salir</button>
+            </div>
 
-                <label>Cantidad (Vasos/Latas):</label>
-                <input type="number" id="cantidad" value="1" min="1" required>
+            <!-- FORMULARIO PARA ANOTAR -->
+            <div class="card">
+                <h3>🍹 ¿Qué vas a tomar?</h3>
+                <form id="drinkForm">
+                    <label>Bebida:</label>
+                    <select id="bebida" required>
+                        <option value="">Elegí una opción...</option>
+                        <option value="Cerveza">Cerveza</option>
+                        <option value="Fernet">Fernet</option>
+                        <option value="Gin Tonic">Gin Tonic</option>
+                        <option value="Vino">Vino</option>
+                        <option value="Vodka">Vodka</option>
+                        <option value="Agua/Gaseosa">Agua / Gaseosa</option>
+                    </select>
 
-                <button type="submit">Sumar Bebida</button>
-            </form>
-            <p id="mensaje" style="color: green; font-weight: bold;"></p>
-        </div>
+                    <label>Cantidad (Vasos/Latas):</label>
+                    <input type="number" id="cantidad" value="1" min="1" required>
 
-        <!-- LISTA DE CONSUMOS -->
-        <div class="card">
-            <h3 id="tituloLista">Tus Consumos</h3>
-            <button onclick="cargarConsumos()" class="btn-azul">Actualizar Lista</button>
-            <div id="listaConsumos">Cargando...</div>
+                    <button type="submit">¡Salud! 🥂</button>
+                </form>
+                <p id="mensaje" style="color: var(--rosa-fuerte); font-weight: bold; margin-top: 15px; margin-bottom: 0;"></p>
+            </div>
+
+            <!-- LISTA DE CONSUMOS -->
+            <div class="card">
+                <h3 id="tituloLista">Tus Consumos</h3>
+                <div id="listaConsumos" style="margin-bottom: 15px;">Cargando...</div>
+                <button onclick="cargarConsumos()" style="font-size: 0.9rem; padding: 0.8rem;">Actualizar Lista 🔄</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // PEGAR AQUÍ LA NUEVA URL DE APPS SCRIPT
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjCdWMs5mIdvfI4p-7ENH_Wm-gjWJvEP4zPr9u_t6s80_4BIBFMpLMHqsSyLa7LiA/exec'; 
+        // PEGAR AQUÍ LA URL DE APPS SCRIPT (Asegurate de que termine en /exec)
+        const APPS_SCRIPT_URL = 'TU_URL_AQUI'; 
         let usuarioActual = "";
 
         function iniciarSesion() {
-            const nombreInput = document.getElementById('nombreUsuario').value.trim();
-            if (!nombreInput) {
-                alert("Por favor, ingresá tu nombre.");
+            const select = document.getElementById('nombreUsuario');
+            const nombreElegido = select.options[select.selectedIndex].value;
+            
+            if (!nombreElegido) {
+                alert("Por favor, seleccioná quién sos.");
                 return;
             }
             
-            usuarioActual = nombreInput; 
+            usuarioActual = nombreElegido; 
             
-            // Cambiar pantallas
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             document.getElementById('saludo').innerText = "Hola, " + usuarioActual;
             
-            // Si es Victoria, activamos modo Admin
             if (usuarioActual.toLowerCase() === "victoria") {
-                document.getElementById('tituloLista').innerText = "👑 Modo Admin: Todos los consumos";
+                document.getElementById('tituloLista').innerText = "👑 Modo Admin";
             } else {
-                document.getElementById('tituloLista').innerText = "Tus Consumos";
+                document.getElementById('tituloLista').innerText = "Tu Historial";
             }
 
             cargarConsumos();
@@ -115,10 +242,12 @@
         // GUARDAR UN NUEVO DATO
         document.getElementById('drinkForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            document.getElementById('mensaje').innerText = "Anotando...";
+            const btn = this.querySelector('button[type="submit"]');
+            btn.innerText = "Anotando...";
+            btn.style.opacity = "0.7";
 
             const data = {
-                nombre: usuarioActual, // Ahora usa el nombre del usuario logueado automáticamente
+                nombre: usuarioActual,
                 bebida: document.getElementById('bebida').value,
                 cantidad: document.getElementById('cantidad').value
             };
@@ -129,65 +258,64 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             }).then(() => {
-                document.getElementById('mensaje').innerText = "¡Anotado!";
+                document.getElementById('mensaje').innerText = "¡Anotado con éxito!";
                 document.getElementById('bebida').value = "";
                 document.getElementById('cantidad').value = "1";
-                cargarConsumos(); // Refrescamos la lista automáticamente
+                cargarConsumos(); 
+                
+                btn.innerText = "¡Salud! 🥂";
+                btn.style.opacity = "1";
                 setTimeout(() => document.getElementById('mensaje').innerText = "", 3000);
             }).catch(err => {
                 document.getElementById('mensaje').innerText = "Error al anotar.";
+                btn.innerText = "¡Salud! 🥂";
+                btn.style.opacity = "1";
             });
         });
 
         // LEER LOS DATOS (EL HISTORIAL)
-// LEER LOS DATOS (EL HISTORIAL)
         function cargarConsumos() {
-            document.getElementById('listaConsumos').innerHTML = "<p>Cargando consumos...</p>";
+            const lista = document.getElementById('listaConsumos');
+            lista.innerHTML = "<p style='color: #888;'>Cargando datos...</p>";
             
-            // AGREGAMOS METHOD Y REDIRECT AQUÍ
             fetch(APPS_SCRIPT_URL, {
                 method: 'GET',
-                redirect: 'follow' // MUY IMPORTANTE para Apps Script
+                redirect: 'follow'
             })
-                .then(response => {
-                    // Verificamos si la respuesta es exitosa
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+            .then(response => {
+                if (!response.ok) throw new Error('Error en red');
+                return response.json();
+            })
+            .then(data => {
+                let html = "<table><tr><th>Invitado</th><th>Bebida</th><th>Cant.</th></tr>";
+                let totalBebidas = 0;
+                let hayDatos = false;
+
+                data.forEach(fila => {
+                    if (usuarioActual.toLowerCase() === "victoria" || fila.nombre.toLowerCase() === usuarioActual.toLowerCase()) {
+                        html += `<tr>
+                                    <td>${fila.nombre}</td>
+                                    <td>${fila.bebida}</td>
+                                    <td>${fila.cantidad}</td>
+                                 </tr>`;
+                        totalBebidas += Number(fila.cantidad);
+                        hayDatos = true;
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    let html = "<table><tr><th>Nombre</th><th>Bebida</th><th>Cant.</th></tr>";
-                    let totalBebidas = 0;
-                    let hayDatos = false;
-
-                    // Recorremos las filas que vienen de tu Google Sheet
-                    data.forEach(fila => {
-                        // Lógica clave: Si es victoria, o si el nombre coincide con el usuario logueado
-                        if (usuarioActual.toLowerCase() === "victoria" || fila.nombre.toLowerCase() === usuarioActual.toLowerCase()) {
-                            html += `<tr>
-                                        <td>${fila.nombre}</td>
-                                        <td>${fila.bebida}</td>
-                                        <td>${fila.cantidad}</td>
-                                     </tr>`;
-                            totalBebidas += Number(fila.cantidad);
-                            hayDatos = true;
-                        }
-                    });
-
-                    html += `<tr style="background-color: #e8f5e9;"><td colspan="2"><b>Total acumulado</b></td><td><b>${totalBebidas}</b></td></tr>`;
-                    html += "</table>";
-
-                    if (!hayDatos) {
-                        document.getElementById('listaConsumos').innerHTML = "<p>Todavía no anotaste nada.</p>";
-                    } else {
-                        document.getElementById('listaConsumos').innerHTML = html;
-                    }
-                })
-                .catch(err => {
-                    console.error("Error capturado:", err); // Para ver el error exacto en la consola (F12)
-                    document.getElementById('listaConsumos').innerHTML = "<p>Error al cargar la lista. Asegurate de que la URL sea la correcta.</p>";
                 });
+
+                html += `<tr class="total-row"><td colspan="2">Total acumulado</td><td>${totalBebidas}</td></tr>`;
+                html += "</table>";
+
+                if (!hayDatos) {
+                    lista.innerHTML = "<p style='color: #888;'>Todavía no hay nada anotado.</p>";
+                } else {
+                    lista.innerHTML = html;
+                }
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                lista.innerHTML = "<p style='color: red;'>Error al cargar. Verificá la URL de Apps Script.</p>";
+            });
         }
     </script>
 </body>
