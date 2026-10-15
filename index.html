@@ -65,15 +65,13 @@
         label { display: block; text-align: left; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; color: #555; }
 
         /* ESTILOS DEL MENÚ NAVEGABLE DE CATEGORÍAS */
-        .categorias-wrapper {
+       .categorias-wrapper {
             display: flex;
-            overflow-x: auto;
+            flex-wrap: wrap; /* Esto hace que los botones bajen si no hay espacio */
+            justify-content: center; /* Centra los botones para que quede más simétrico */
             gap: 10px;
-            padding-bottom: 10px;
             margin-bottom: 1rem;
         }
-        .categorias-wrapper::-webkit-scrollbar { height: 6px; }
-        .categorias-wrapper::-webkit-scrollbar-thumb { background: var(--rosa-claro); border-radius: 10px; }
         
         .btn-categoria {
             background: rgba(255, 255, 255, 0.9);
@@ -81,13 +79,14 @@
             color: var(--rosa-fuerte);
             padding: 0.5rem 1rem;
             border-radius: 20px;
-            white-space: nowrap;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 600;
             box-shadow: none;
             width: auto;
+            transition: all 0.2s; /* Un pequeño efecto de transición */
         }
+        
         .btn-categoria.activa {
             background: var(--rosa-fuerte);
             color: white;
