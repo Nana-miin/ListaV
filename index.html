@@ -65,10 +65,10 @@
         label { display: block; text-align: left; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; color: #555; }
 
         /* ESTILOS DEL MENÚ NAVEGABLE DE CATEGORÍAS */
-       .categorias-wrapper {
+        .categorias-wrapper {
             display: flex;
-            flex-wrap: wrap; /* Esto hace que los botones bajen si no hay espacio */
-            justify-content: center; /* Centra los botones para que quede más simétrico */
+            flex-wrap: wrap; 
+            justify-content: center; 
             gap: 10px;
             margin-bottom: 1rem;
         }
@@ -84,7 +84,7 @@
             font-weight: 600;
             box-shadow: none;
             width: auto;
-            transition: all 0.2s; /* Un pequeño efecto de transición */
+            transition: all 0.2s; 
         }
         
         .btn-categoria.activa {
@@ -188,20 +188,20 @@
                 <option value="">¿Quién sos?...</option>
                 <option value="Victoria">Victoria</option>
                 <option value="Jimena">Jimena</option>
-                <option value="Matias">Matias B.</option>
-                <option value="Lucas">Matias C.</option>
-                <option value="Sofia">Franco</option>
-                <option value="Victoria">Chiara</option>
-                <option value="Victoria">Ayo</option>
-                <option value="Victoria">Violeta</option>
-                <option value="Victoria">Agustin</option>
-                <option value="Victoria">Nicolas</option>
-                <option value="Victoria">Alan</option>
-                <option value="Victoria">Mirko</option>
-                <option value="Victoria">Aixa</option>
-                <option value="Victoria">Emanuel</option>
-                <option value="Victoria">Camila</option>
-                <option value="Victoria">Azul</option>
+                <option value="Matias B.">Matias B.</option>
+                <option value="Matias C.">Matias C.</option>
+                <option value="Franco">Franco</option>
+                <option value="Chiara">Chiara</option>
+                <option value="Ayo">Ayo</option>
+                <option value="Violeta">Violeta</option>
+                <option value="Agustin">Agustin</option>
+                <option value="Nicolas">Nicolas</option>
+                <option value="Alan">Alan</option>
+                <option value="Mirko">Mirko</option>
+                <option value="Aixa">Aixa</option>
+                <option value="Emanuel">Emanuel</option>
+                <option value="Camila">Camila</option>
+                <option value="Azul">Azul</option>
             </select>
 
             <button onclick="iniciarSesion()">Entrar a la fiesta</button>
@@ -360,7 +360,7 @@
             });
         }
 
-function cargarConsumos() {
+        function cargarConsumos() {
             const lista = document.getElementById('listaConsumos');
             lista.innerHTML = "<p style='color: #888;'>Cargando datos...</p>";
             
@@ -373,10 +373,8 @@ function cargarConsumos() {
                 return response.json();
             })
             .then(data => {
-                // Verificamos si el usuario actual es la administradora
                 const esAdmin = usuarioActual.toLowerCase() === "victoria";
 
-                // Si es admin, agregamos una 4ta columna vacía en el encabezado para la cruz
                 let html = "<table><tr><th>Invitado</th><th>Bebida</th><th>Cant.</th>" + (esAdmin ? "<th></th>" : "") + "</tr>";
                 let totalBebidas = 0;
                 let hayDatos = false;
@@ -388,7 +386,6 @@ function cargarConsumos() {
                                     <td>${fila.bebida}</td>
                                     <td style="text-align: center;">${fila.cantidad}</td>`;
                         
-                        // Solo dibujamos el botón de borrar si es admin
                         if (esAdmin) {
                             html += `<td style="text-align: center;">
                                         <button type="button" onclick="borrarConsumo(${fila.rowIndex})" style="background: none; border: none; color: red; box-shadow: none; padding: 0; width: auto; font-size: 1.2rem; cursor: pointer;">❌</button>
@@ -401,23 +398,7 @@ function cargarConsumos() {
                     }
                 });
 
-                // Acomodamos el pie de la tabla dependiendo de cuántas columnas hay
                 html += `<tr class="total-row"><td colspan="2">Total acumulado</td><td style="text-align: center;">${totalBebidas}</td>` + (esAdmin ? "<td></td>" : "") + `</tr>`;
-                html += "</table>";
-
-                if (!hayDatos) {
-                    lista.innerHTML = "<p style='color: #888;'>Todavía no hay nada anotado.</p>";
-                } else {
-                    lista.innerHTML = html;
-                }
-            })
-            .catch(err => {
-                console.error("Error:", err);
-                lista.innerHTML = "<p style='color: red;'>Error al cargar. Verificá la URL de Apps Script.</p>";
-            });
-        }
-
-                html += `<tr class="total-row"><td colspan="2">Total acumulado</td><td colspan="2" style="text-align: center;">${totalBebidas}</td></tr>`;
                 html += "</table>";
 
                 if (!hayDatos) {
