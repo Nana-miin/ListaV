@@ -349,7 +349,7 @@
             });
         }
 
-        function cargarConsumos() {
+function cargarConsumos() {
             const lista = document.getElementById('listaConsumos');
             lista.innerHTML = "<p style='color: #888;'>Cargando datos...</p>";
             
@@ -362,24 +362,49 @@
                 return response.json();
             })
             .then(data => {
-                let html = "<table><tr><th>Invitado</th><th>Bebida</th><th>Cant.</th><th></th></tr>";
+                // Verificamos si el usuario actual es la administradora
+                const esAdmin = usuarioActual.toLowerCase() === "victoria";
+
+                // Si es admin, agregamos una 4ta columna vacía en el encabezado para la cruz
+                let html = "<table><tr><th>Invitado</th><th>Bebida</th><th>Cant.</th>" + (esAdmin ? "<th></th>" : "") + "</tr>";
                 let totalBebidas = 0;
                 let hayDatos = false;
 
                 data.forEach(fila => {
-                    if (usuarioActual.toLowerCase() === "victoria" || fila.nombre.toLowerCase() === usuarioActual.toLowerCase()) {
+                    if (esAdmin || fila.nombre.toLowerCase() === usuarioActual.toLowerCase()) {
                         html += `<tr>
                                     <td>${fila.nombre}</td>
                                     <td>${fila.bebida}</td>
-                                    <td style="text-align: center;">${fila.cantidad}</td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center;">${fila.cantidad}</td>`;
+                        
+                        // Solo dibujamos el botón de borrar si es admin
+                        if (esAdmin) {
+                            html += `<td style="text-align: center;">
                                         <button type="button" onclick="borrarConsumo(${fila.rowIndex})" style="background: none; border: none; color: red; box-shadow: none; padding: 0; width: auto; font-size: 1.2rem; cursor: pointer;">❌</button>
-                                    </td>
-                                 </tr>`;
+                                     </td>`;
+                        }
+                        
+                        html += `</tr>`;
                         totalBebidas += Number(fila.cantidad);
                         hayDatos = true;
                     }
                 });
+
+                // Acomodamos el pie de la tabla dependiendo de cuántas columnas hay
+                html += `<tr class="total-row"><td colspan="2">Total acumulado</td><td style="text-align: center;">${totalBebidas}</td>` + (esAdmin ? "<td></td>" : "") + `</tr>`;
+                html += "</table>";
+
+                if (!hayDatos) {
+                    lista.innerHTML = "<p style='color: #888;'>Todavía no hay nada anotado.</p>";
+                } else {
+                    lista.innerHTML = html;
+                }
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                lista.innerHTML = "<p style='color: red;'>Error al cargar. Verificá la URL de Apps Script.</p>";
+            });
+        }
 
                 html += `<tr class="total-row"><td colspan="2">Total acumulado</td><td colspan="2" style="text-align: center;">${totalBebidas}</td></tr>`;
                 html += "</table>";
