@@ -11,7 +11,7 @@ const menuBebidas = {
         "Tinto en Jarra", "Malibú", "Black Tonic", "Ferroviario"
     ],
     "Gin Tonic Tirados": [
-        "Naranja, Kiwi o Pepino", "Frutos Rojos o Maracuyá", "Pomelo"
+        "Naranja, Kiwi, Pepino", "Frutos Rojos, Maracuyá", "Pomelo"
     ],
     "Birrita Tirada": [
         "IPA - Pinta", "IPA - 1/2 Pinta",
@@ -30,7 +30,7 @@ const menuBebidas = {
         "Nature", "Barón B"
     ],
     "Sin Alcohol": [
-        "Coca Cola / Zero", "Sprite / Fanta", "Agua Saborizada", "Agua Mineral", 
+        "Coca Cola / Zero / Sprite / Fanta 1Lt", "Coca Cola / Zero / Sprite / Fanta 500cc" , "Agua Saborizada", "Agua Mineral", 
         "Limonada", "Jarra Limonada", "Limo Frutos Rojos", "Soda", "Jugo de Naranja", 
         "Paso de los Toros Tónica", "Paso de los Toros Pomelo", "Speed", "Red Bull"
     ]
