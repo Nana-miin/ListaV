@@ -14,7 +14,12 @@ const menuBebidas = {
         "Naranja, Kiwi o Pepino", "Frutos Rojos o Maracuyá", "Pomelo"
     ],
     "Birrita Tirada": [
-        "IPA", "Boston", "Irish", "Liso", "Wipa", "Liso Negro"
+        "IPA - Pinta", "IPA - 1/2 Pinta",
+        "Boston - Pinta", "Boston - 1/2 Pinta",
+        "Irish - Pinta", "Irish - 1/2 Pinta",
+        "Liso - Pinta", "Liso - 1/2 Pinta",
+        "Wipa - Pinta", "Wipa - 1/2 Pinta",
+        "Liso Negro - Pinta", "Liso Negro - 1/2 Pinta"
     ],
     "Whisky": [
         "Jack Daniel's", "Red Label", "White Horse"
